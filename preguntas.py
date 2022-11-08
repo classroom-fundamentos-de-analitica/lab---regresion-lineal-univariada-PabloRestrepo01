@@ -26,19 +26,18 @@ def pregunta_01():
 
     # Imprima las dimensiones de `X`
     print(X.shape)
-    print(X)
     # Transforme `y` a un array de numpy usando reshape
-    y_reshaped = y.reshape(y, y.shape)
+    y_reshaped = y.reshape(-1, 1)
     
     # Trasforme `X` a un array de numpy usando reshape
-    X_reshaped = X.reshape(X.shape)
+    X_reshaped = X.reshape(-1, 1)
     
     # Imprima las nuevas dimensiones de `y`
-    print(y.shape)
+    print(y_reshaped.shape)
 
     # Imprima las nuevas dimensiones de `X`
-    print(X.shape)
-
+    print(X_reshaped.shape)
+pregunta_01()
 def pregunta_02():
     """
     En este punto se realiza la impresión de algunas estadísticas básicas
@@ -71,37 +70,38 @@ def pregunta_03():
     """
 
     # Lea el archivo `gm_2008_region.csv` y asignelo al DataFrame `df`
-    df = ____
+    df = pd.read_csv('gm_2008_region.csv')
 
     # Asigne a la variable los valores de la columna `fertility`
-    X_fertility = ____
+    X_fertility = df['fertility']
 
     # Asigne a la variable los valores de la columna `life`
-    y_life = ____
+    y_life = df['life']
 
     # Importe LinearRegression
-    from ____ import ____
+    from sklearn import linear_model
+    from sklearn.metrics import r2_score
 
     # Cree una instancia del modelo de regresión lineal
-    reg = ____
+    reg = linear_model.LinearRegression()
 
     # Cree El espacio de predicción. Esto es, use linspace para crear
     # un vector con valores entre el máximo y el mínimo de X_fertility
-    prediction_space = ____(
-        ____,
-        ____,
-    ).reshape(____, _____)
-
+    prediction_space = np.linspace(
+        X_fertility.max(),
+        X_fertility.min(),
+    ).reshape(-1, 1)
+    print(prediction_space)
     # Entrene el modelo usando X_fertility y y_life
-    reg.fit(____, ____)
+    reg.fit(X_fertility, y_life)
 
     # Compute las predicciones para el espacio de predicción
     y_pred = reg.predict(prediction_space)
 
     # Imprima el R^2 del modelo con 4 decimales
-    print(____.score(____, ____).round(____))
+    print(r2_score(y_life, y_pred).round(4))
 
-
+pregunta_03()
 def pregunta_04():
     """
     Particionamiento del conjunto de datos usando train_test_split.
